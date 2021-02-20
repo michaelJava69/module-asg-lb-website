@@ -1,27 +1,13 @@
-variable "prod-az" {
-   default = ["us-east-2a", "us-east-2b", "us-east-2c" ]
-}
 
 
-variable "prod-type" {
-   default = "t2.micro"
-}
-
-variable "prod-user" {
-  default = "john"
-}
+variable "prefix" {}
+variable "prod-az" {}
+variable "prod-type" {}
+variable "prod-user" {}
+variable "vpc-prod"  {}
 
 
-variable "vpc-prod"  {
-  default = "172.30.0.0/16"
 
-}
-
-variable "prod-sub"  {
-  default = ["172.30.10.0/24" ,"172.30.20.0/24"]
-
-
-}
 
 
 

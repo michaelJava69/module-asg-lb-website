@@ -65,7 +65,8 @@ module "prod-network" {
 
    ## contains vpc and sub network confgis
    source = "../../../modules/network"
-   sub = var.prod-sub
+   #sub = var.prod-sub
+   sub = ["${cidrsubnet(var.vpc-prod,8,10)}","${cidrsubnet(var.vpc-prod,8,20)}"]
    vpc = var.vpc-prod
    az = var.prod-az 
 }
