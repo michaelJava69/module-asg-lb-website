@@ -18,7 +18,7 @@ So in order to give users the ability to ssh onto the newly crated Linux vms we 
 Goto the Key Pairs screen in AWS
     click Create key pair button top right
         Give your key a name i.e chapter5
-                leave pem radio button                  
+                leave pem radio button
         Click create key pair
 
     Your key will be downloaded to your pc
@@ -29,21 +29,23 @@ Goto the Key Pairs screen in AWS
 
                 ssh-keygen -y -f <private_key1.pem > <public_key1.pub>
                 [rem to chmod your private key 400 - to restrict access to it ]
-                
-            Place this in the same folder. 
+
+            Place this in the same folder.
             Call it chapter5.pub
-                
-
-```
 
 
 ```
 
-How to use mfa Assumed role script : start_aws_profile.sh 
+
+```
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+How to use mfa Assumed role script : start_aws_profile.sh
+Used to aget access to AWS profile
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Step 1:
-=======
+------
 
 How to set up ~/.aws/config
 ---------------------------
@@ -70,57 +72,97 @@ aws_secret_access_key = <default access key>
 
 
 Step 2:
-=======
+-------
 
 export AWS_PROFILE=dev
 export AWS_SDK_LOAD_CONFIG=1
 
 
 Step 3:
-=======
+-------
 
 ./start_aws_profile.sh mfa michalugbechie <mfa number from fob>
 
 Your ~/.aws/credentials file will be automatically updated with assumed role key id and access key
 
-
 ```
 
 
+
+
 ```
+Modules
+=======
 
-Modules 
+module "compute"  {
 
+   # -------------------
+   # required parameters
+   # -------------------------------------------
 
-module "stage-compute"  {
-   source = "../../../modules/compute"
+    parameter
+    ---------
+    vpc-id
+    image
+    vpc-zone-identifier
+    target-group-arns
 
-   # insert the 15 required variables here
-   cluster-name = "stage-cluster"
-   image = data.aws_ami.ami.id
-   type = var.stage-type
-   vpc-id =  "${module.stage-network.vpc-id}"
-   vpc-zone-identifier  = ["${module.stage-network.aws_subnet-web1-id}", "${module.stage-network.aws_subnet-web2-id}"]
-   target-group-arns    = ["${module.stage-lb.target_group_arn}"]
-   user-data            = var.user_data
+   # -------------------
+   # optional parameters
+   # These parameters have reasonable defaults.
+   # -------------------------------------------
 
-   min-size             = 1
-   max-size             = 1
-   enable_autoscaling   = true
-
-   # insert the 15 optional variables here
-   type                 = string              : t2.micro
-     
-     
-
-
+    parameter           type            default
+    ---------           ----            -------
+    user-data           string          null
+    cluster-name"       string          cluster
+    enable_autoscaling  bool            false          # changing scaling at different time of day
+    min-size                            2
+    max-size                            2
+    type                string          t2.micro
 }
 
 
+module  "lb"  {
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "2.70.0"
-  # insert the 15 required variables here
+   # -------------------
+   # required parameters
+   # -------------------------------------------
+
+    parameter
+    ---------
+    vpc-id
+    sub
+
+   # -------------------
+   # output
+   # -------------------------------------------
+    output              awsinstance.label.item          description
+    ------              ----------------------          -----------
+    alb_dns_name        aws_lb.nlb.dns_name             The domain name of the loadbalancer
+    target_group_arn    aws_lb_target_group.pool.arn    lb target pool arn
 }
-	
+
+
+module  "network"  {
+
+   # -------------------
+   # required parameters
+   # -------------------------------------------
+
+    parameter           type
+    ---------           ----
+    vpc
+    sub
+    az                 list
+
+   # -------------------
+   # output
+   # -------------------------------------------
+    output              awsinstance.label.item          description
+    ------              ----------------------          -----------
+    vpc-id		aws_vpc.tfvpc.id                non default vpc_id
+    aws_subnet-web1-id  aws_subnet.web1.id              ist subnet id 
+    aws_subnet-web2-id  aws_subnet.web2.id		2nd subnet id
+}
+
