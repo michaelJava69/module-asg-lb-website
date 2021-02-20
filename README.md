@@ -1,4 +1,9 @@
-## AWS Terraform Example
+##
+#
+#  Terraform Website deployment using asg, lb , 
+#      ec2 instances, router, and internet gateway
+#
+#####################################
 
 ```
 Terraform code that created a Load Balanced / Auto Scaling Group controlled Web Application that would run in AWS. across two availability zones in a non default VPC
@@ -39,10 +44,10 @@ Goto the Key Pairs screen in AWS
 
 ```
 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-How to use mfa Assumed role script : start_aws_profile.sh
-Used to aget access to AWS profile
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#################################################################
+#How to use mfa Assumed role script : start_aws_profile.sh
+#Used to aget access to AWS profile
+#####################################
 
 Step 1:
 ------
@@ -91,14 +96,17 @@ Your ~/.aws/credentials file will be automatically updated with assumed role key
 
 
 ```
-Modules
-=======
+#########################
+#  Modules
+#
+############################################
+
 
 module "compute"  {
 
-   # -------------------
-   # required parameters
-   # -------------------------------------------
+    -------------------
+    required parameters
+    -------------------------------------------
 
     parameter
     ---------
@@ -107,10 +115,10 @@ module "compute"  {
     vpc-zone-identifier
     target-group-arns
 
-   # -------------------
-   # optional parameters
-   # These parameters have reasonable defaults.
-   # -------------------------------------------
+    -------------------
+    Optional parameters
+    These parameters have reasonable defaults.
+    -------------------------------------------
 
     parameter           type            default
     ---------           ----            -------
@@ -123,20 +131,22 @@ module "compute"  {
 }
 
 
+
 module  "lb"  {
 
-   # -------------------
-   # required parameters
-   # -------------------------------------------
+    -------------------
+    required parameters
+    -------------------------------------------
 
     parameter
     ---------
     vpc-id
     sub
 
-   # -------------------
-   # output
-   # -------------------------------------------
+    -------
+    output
+    -------
+   
     output              awsinstance.label.item          description
     ------              ----------------------          -----------
     alb_dns_name        aws_lb.nlb.dns_name             The domain name of the loadbalancer
@@ -144,11 +154,12 @@ module  "lb"  {
 }
 
 
+
 module  "network"  {
 
-   # -------------------
-   # required parameters
-   # -------------------------------------------
+    -------------------
+    required parameters
+    -------------------
 
     parameter           type
     ---------           ----
@@ -156,9 +167,10 @@ module  "network"  {
     sub
     az                 list
 
-   # -------------------
-   # output
-   # -------------------------------------------
+    -------
+    output
+    -------
+
     output              awsinstance.label.item          description
     ------              ----------------------          -----------
     vpc-id		aws_vpc.tfvpc.id                non default vpc_id
