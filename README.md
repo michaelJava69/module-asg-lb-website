@@ -97,9 +97,71 @@ Your ~/.aws/credentials file will be automatically updated with assumed role key
 
 ```
 #########################
-#  Modules
+#  Structure
 #
 ############################################
+
+Folder		Description
+------		-----------
+Global :        sets up the intial bucket to store Remote state
+stage  :        developement environment
+prod   :        prod like environment
+
+modules : modules 
+
+.
+├── global
+│   └── s3
+│       ├── main.tf
+│       ├── outputs.tf
+│       ├── terraform.tfstate
+│       ├── terraform.tfvars
+│       └── variables.tf
+├── modules
+│   ├── compute
+│   │   ├── main.tf
+│   │   └── variables.tf
+│   ├── iam
+│   ├── lb
+│   │   ├── main.tf
+│   │   ├── output.tf
+│   │   └── variables.tf
+│   └── network
+│       ├── main.tf
+│       ├── output.tf
+│       └── variables.tf
+├── prod
+│   └── services
+│       └── webcluster
+│           ├── graph.svg
+│           ├── main.tf
+│           ├── outputs.tf
+│           ├── provider.tf
+│           ├── terraform.tfvars
+│           ├── tfplan
+│           └── variables.tf
+├── README.md
+├── stage
+│   └── services
+│       └── webcluster
+│           ├── graph1.svg
+│           ├── graph.svg
+│           ├── main.tf
+│           ├── notes.txt
+│           ├── outputs.tf
+│           ├── provider.tf
+│           ├── README.md
+│           ├── terraform.tfvars
+│           ├── tfplan
+│           └── variables.tf
+└── start_aws_profile.txt
+
+
+
+#####
+#
+#  Modules
+#################
 
 
 module "compute"  {
