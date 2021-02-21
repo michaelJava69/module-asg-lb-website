@@ -101,13 +101,17 @@ Your ~/.aws/credentials file will be automatically updated with assumed role key
 #
 ############################################
 
+git clone  https://github.com/michaelJava69/module-asg-lb-website.git
+ 
+
+
 Folder		Description
 ------		-----------
 Global :        sets up the intial bucket to store Remote state
 stage  :        developement environment
 prod   :        prod like environment
+modules :       modules 
 
-modules : modules 
 
 .
 ├── global
@@ -150,12 +154,10 @@ modules : modules
 │           ├── notes.txt
 │           ├── outputs.tf
 │           ├── provider.tf
-│           ├── README.md
 │           ├── terraform.tfvars
 │           ├── tfplan
 │           └── variables.tf
 └── start_aws_profile.txt
-
 
 
 #####
